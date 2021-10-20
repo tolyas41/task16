@@ -4,6 +4,7 @@
 #include "SomeCharacter.h"
 #include "Components/InputComponent.h"
 #include "Projectile.h"
+#include "SomeFactory.h"
 
 ASomeCharacter::ASomeCharacter()
 {
@@ -18,7 +19,17 @@ ASomeCharacter::ASomeCharacter()
 void ASomeCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	factory->OnSpawnEvent.AddUFunction(this, FName("OnDamage"));
+	OnHealEvent.AddUFunction(this, FName("Heal"));
+
+	//ASomeFactory* EventFactory = GetWorld()->Find
+	//	GetAct<ASomeFactory>()
+	//if (EventFactory != nullptr)
+	//{
+	//	EventFactory->OnSpawnEvent.AddUFunction(this, FName("OnSpawn"));
+	//}
+
 }
 
 void ASomeCharacter::Tick(float DeltaTime)
@@ -28,6 +39,10 @@ void ASomeCharacter::Tick(float DeltaTime)
 	//const FRotator NewRotation = GetActorRotation() + (CharRotation * RotateSpeed);
 	//SetActorRotation(NewRotation);
 
+	if (Health == 0)
+	{
+		Destroy();
+	}
 }
 
 void ASomeCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -69,3 +84,15 @@ void ASomeCharacter::Fire()
 
 }
 
+void ASomeCharacter::OnDamage(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
+{
+	DamageToApply = FMath::Min(Health, DamageToApply);
+	Health -= DamageToApply;
+	UE_LOG(LogTemp, Warning, TEXT("Char's health left %f"), Health);
+}
+
+void ASomeCharacter::Heal(float HealAmount)
+{
+	Health += HealAmount;
+	UE_LOG(LogTemp, Warning, TEXT("Char's health left %f"), Health);
+}

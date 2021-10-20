@@ -6,12 +6,14 @@
 #include "GameFramework/GameModeBase.h"
 #include "SomeGameMode.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class TASK16_API ASomeGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+
+protected:
+	virtual void BeginPlay() override;
+
+public:
+
 };

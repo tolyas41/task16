@@ -7,7 +7,7 @@
 #include "SomeFactory.generated.h"
 
 class AUnit;
-
+DECLARE_EVENT(ASomeFactory, FOnSpawnEvent)
 
 UCLASS()
 class TASK16_API ASomeFactory : public AActor
@@ -15,15 +15,12 @@ class TASK16_API ASomeFactory : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	ASomeFactory();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn")
@@ -32,7 +29,12 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Spawn")
 	FVector SpawnLocation;
 
-
 	UFUNCTION()
 	void SpawnUnit();
+
+	UFUNCTION()
+	void OnSpawn();
+
+	FOnSpawnEvent OnSpawnEvent;
+
 };

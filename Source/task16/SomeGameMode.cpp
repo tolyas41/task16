@@ -3,3 +3,6 @@
 
 #include "SomeGameMode.h"
 
+void ASomeGameMode::BeginPlay()
+{
+}

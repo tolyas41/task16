@@ -21,6 +21,9 @@ class TASK16_API IDamage
 	GENERATED_BODY()
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
+protected:
+	float DamageToApply = 20.0f;
+
 public:
-	virtual void OnDamage() = 0;
+	virtual void OnDamage(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit) = 0;
 };

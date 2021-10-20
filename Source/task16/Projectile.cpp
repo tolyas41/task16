@@ -4,6 +4,7 @@
 #include "Projectile.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Unit.h"
 
 // Sets default values
 AProjectile::AProjectile()
@@ -19,7 +20,8 @@ AProjectile::AProjectile()
 	ProjectileMoveComp->MaxSpeed = ProjectileSpeed;
 	InitialLifeSpan = 3.0f;
 
-
+	//AUnit* Unit;
+	//ProjectileMesh->OnComponentBeginOverlap.AddDynamic(Unit->OnDamageEvent);
 }
 
 // Called when the game starts or when spawned

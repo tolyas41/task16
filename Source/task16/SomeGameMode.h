@@ -6,6 +6,9 @@
 #include "GameFramework/GameModeBase.h"
 #include "SomeGameMode.generated.h"
 
+DECLARE_EVENT(AUnit, FOnDamageEvent)
+DECLARE_EVENT(AUnit, FOnDeathUnitEvent)
+
 UCLASS()
 class TASK16_API ASomeGameMode : public AGameModeBase
 {
@@ -15,5 +18,11 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	FOnDamageEvent OnDamageEvent;
+	FOnDeathUnitEvent OnDeathUnitEvent;
 
+	float SuccessHits;
+
+	UFUNCTION()
+		void HitSuccess();
 };

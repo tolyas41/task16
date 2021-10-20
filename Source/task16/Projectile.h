@@ -19,8 +19,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-private:
-
+public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 		UProjectileMovementComponent* ProjectileMoveComp;
 
@@ -32,6 +31,4 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "ProjProps", meta = (AllowPrivateAccess = "true"))
 		float ProjectileDamage = 10.0f;
-
-
 };

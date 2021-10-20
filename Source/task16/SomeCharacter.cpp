@@ -2,9 +2,12 @@
 
 
 #include "SomeCharacter.h"
+#include "SomeGameMode.h"
 #include "Components/InputComponent.h"
 #include "Projectile.h"
 #include "SomeFactory.h"
+#include "Kismet/GameplayStatics.h"
+
 
 ASomeCharacter::ASomeCharacter()
 {
@@ -21,23 +24,19 @@ void ASomeCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	factory->OnSpawnEvent.AddUFunction(this, FName("OnDamage"));
-	OnHealEvent.AddUFunction(this, FName("Heal"));
-
-	//ASomeFactory* EventFactory = GetWorld()->Find
-	//	GetAct<ASomeFactory>()
-	//if (EventFactory != nullptr)
-	//{
-	//	EventFactory->OnSpawnEvent.AddUFunction(this, FName("OnSpawn"));
-	//}
+	UWorld* TheWorld = GetWorld();
+	if (TheWorld != nullptr)
+	{
+		AGameModeBase* GameMode = UGameplayStatics::GetGameMode(TheWorld);
+		ASomeGameMode* SomeGameMode = Cast<ASomeGameMode>(GameMode);
+		SomeGameMode->OnDeathUnitEvent.AddUFunction(this, FName("Heal"), HealPower);
+	}
 
 }
 
 void ASomeCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	//const FRotator NewRotation = GetActorRotation() + (CharRotation * RotateSpeed);
-	//SetActorRotation(NewRotation);
 
 	if (Health == 0)
 	{
@@ -81,18 +80,24 @@ void ASomeCharacter::Fire()
 		FRotator SpawnRot = ProjectileSpawnPoint->GetComponentRotation();
 		AProjectile* ProjectileBullet = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, SpawnLoc, SpawnRot);
 	}
-
 }
 
 void ASomeCharacter::OnDamage(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-	DamageToApply = FMath::Min(Health, DamageToApply);
-	Health -= DamageToApply;
-	UE_LOG(LogTemp, Warning, TEXT("Char's health left %f"), Health);
+	int chance = FMath::RandRange(0, 10);
+	if (chance > 7)
+	{
+		DamageToApply = FMath::Min(Health, DamageToApply);
+		Health -= DamageToApply;
+		UE_LOG(LogTemp, Warning, TEXT("Char's health left (-) %f"), Health);
+	}
 }
 
 void ASomeCharacter::Heal(float HealAmount)
 {
-	Health += HealAmount;
-	UE_LOG(LogTemp, Warning, TEXT("Char's health left %f"), Health);
+	if (Health < 100)
+	{
+		Health += FMath::Min(100 - Health, HealAmount);
+		UE_LOG(LogTemp, Warning, TEXT("Char's health left (+) %f"), Health);
+	}
 }

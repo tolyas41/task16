@@ -25,15 +25,11 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn")
 	TSubclassOf<AUnit> UnitToSpawn;
-
 	UPROPERTY(EditAnywhere, Category = "Spawn")
 	FVector SpawnLocation;
 
 	UFUNCTION()
 	void SpawnUnit();
-
-	UFUNCTION()
-	void OnSpawn();
 
 	FOnSpawnEvent OnSpawnEvent;
 

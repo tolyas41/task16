@@ -35,26 +35,27 @@ public:
 	void Fire();
 	UFUNCTION()
 	virtual void OnDamage(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit) override;
-
+	UFUNCTION()
+	void Heal(float HealAmount);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bullets")
-		TSubclassOf<AProjectile> ProjectileClass;
-
+	TSubclassOf<AProjectile> ProjectileClass;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile")
-		USceneComponent* ProjectileSpawnPoint;
+	USceneComponent* ProjectileSpawnPoint;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Move")
 	float MoveSpeed = 500.0f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Move")
 	float RotateSpeed = 5.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Healing")
+	float HealPower = 8.0f;
 
 	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "EventFactory")
 	ASomeFactory* factory;
 
-	UFUNCTION()
-		void Heal(float HealAmount);
 
 	FHealEvent OnHealEvent;
+
 
 private:
 	FRotator CharRotation;

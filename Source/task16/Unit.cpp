@@ -49,7 +49,9 @@ void AUnit::OnDamage(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPri
 	{
 		DamageToApply = FMath::Min(Health, DamageToApply);
 		Health -= DamageToApply;
+#if UE_BUILD_DEVELOPMENT
 		UE_LOG(LogTemp, Warning, TEXT("Health left %f, %s"), Health, *OtherActor->GetName());
+#endif
 		UWorld* TheWorld = GetWorld();
 		if (TheWorld != nullptr)
 		{

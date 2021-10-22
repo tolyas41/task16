@@ -56,6 +56,10 @@ public:
 
 	FHealEvent OnHealEvent;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Damage")
+	float DamageToApply = 25.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Damage")
+	int32 Avoidance = 50;
 
 private:
 	FRotator CharRotation;

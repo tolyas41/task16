@@ -12,6 +12,7 @@ void ASomeGameMode::BeginPlay()
 void ASomeGameMode::HitSuccess()
 {
 	SuccessHits++;
+#if UE_BUILD_DEVELOPMENT
 	UE_LOG(LogTemp, Warning, TEXT("Success Hits: %f"), SuccessHits);
-
+#endif
 }

@@ -37,10 +37,9 @@ public:
 	UFUNCTION()
 	virtual void OnDamage(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Damage")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DamageReceived")
 	float DamageToApply = 14.0f;
 
 private:
 	float Health{ 100 };
-
 };

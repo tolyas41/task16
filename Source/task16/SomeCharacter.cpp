@@ -38,10 +38,6 @@ void ASomeCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (Health == 0)
-	{
-		Destroy();
-	}
 }
 
 void ASomeCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -84,12 +80,18 @@ void ASomeCharacter::Fire()
 
 void ASomeCharacter::OnDamage(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-	int chance = FMath::RandRange(0, 10);
-	if (chance > 7)
+	int Chance = FMath::RandRange(0, 100);
+	if (Chance > Avoidance)
 	{
 		DamageToApply = FMath::Min(Health, DamageToApply);
 		Health -= DamageToApply;
+#if UE_BUILD_DEVELOPMENT
 		UE_LOG(LogTemp, Warning, TEXT("Char's health left (-) %f"), Health);
+#endif
+		if (Health == 0)
+		{
+			Destroy();
+		}
 	}
 }
 
@@ -98,6 +100,8 @@ void ASomeCharacter::Heal(float HealAmount)
 	if (Health < 100)
 	{
 		Health += FMath::Min(100 - Health, HealAmount);
+#if UE_BUILD_DEVELOPMENT
 		UE_LOG(LogTemp, Warning, TEXT("Char's health left (+) %f"), Health);
+#endif
 	}
 }

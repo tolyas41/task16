@@ -30,17 +30,6 @@ void AUnit::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (Health == 0)
-	{
-		Destroy();
-		UWorld* TheWorld = GetWorld();
-		if (TheWorld != nullptr)
-		{
-			AGameModeBase* GameMode = UGameplayStatics::GetGameMode(TheWorld);
-			ASomeGameMode* SomeGameMode = Cast<ASomeGameMode>(GameMode);
-			SomeGameMode->OnDeathUnitEvent.Broadcast();
-		}
-	}
 }
 
 void AUnit::OnDamage(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
@@ -58,6 +47,18 @@ void AUnit::OnDamage(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPri
 			AGameModeBase* GameMode = UGameplayStatics::GetGameMode(TheWorld);
 			ASomeGameMode* SomeGameMode = Cast<ASomeGameMode>(GameMode);
 			SomeGameMode->OnDamageEvent.Broadcast();
+		}
+	}
+
+	if (Health == 0)
+	{
+		Destroy();
+		UWorld* TheWorld = GetWorld();
+		if (TheWorld != nullptr)
+		{
+			AGameModeBase* GameMode = UGameplayStatics::GetGameMode(TheWorld);
+			ASomeGameMode* SomeGameMode = Cast<ASomeGameMode>(GameMode);
+			SomeGameMode->OnDeathUnitEvent.Broadcast();
 		}
 	}
 }
